@@ -271,15 +271,15 @@ Image3 hw_1_5(const std::vector<std::string> &params) {
 
             for (int i = 0; i < num_subpixels; i++) {
                 for (int j = 0; j < num_subpixels; j++) {
-                    Real subpixel_x = x + (i + 0.5) / num_subpixels;
-                    Real subpixel_y = y + (j + 0.5) / num_subpixels;
+                    Real x_center = x + (i + 0.5) / num_subpixels;
+                    Real y_center = y + (j + 0.5) / num_subpixels;
 
                     Vector3 color = scene.background;
 
                     for (const auto &shape : scene.shapes) {
                         if (auto *circle = std::get_if<Circle>(&shape)) {
                             Matrix3x3 inverse_transform = inverse(circle->transform);
-                            Vector3 pixel_center = inverse_transform * Vector3{subpixel_x, subpixel_y, 1.0};
+                            Vector3 pixel_center = inverse_transform * Vector3{x_center, y_center, 1.0};
                             Real dist = std::sqrt(
                                 std::pow(pixel_center.x - circle->center.x, 2) +
                                 std::pow(pixel_center.y - circle->center.y, 2)
@@ -289,14 +289,14 @@ Image3 hw_1_5(const std::vector<std::string> &params) {
                             }
                         } else if (auto *rect = std::get_if<Rectangle>(&shape)) {
                             Matrix3x3 inverse_transform = inverse(rect->transform);
-                            Vector3 pixel_center = inverse_transform * Vector3{subpixel_x, subpixel_y, 1.0};
+                            Vector3 pixel_center = inverse_transform * Vector3{x_center, y_center, 1.0};
                             if (pixel_center.x >= rect->p_min.x && pixel_center.x <= rect->p_max.x &&
                                 pixel_center.y >= rect->p_min.y && pixel_center.y <= rect->p_max.y) {
                                 color = rect->color;
                             }
                         } else if (auto *triangle = std::get_if<Triangle>(&shape)) {
                             Matrix3x3 inverse_transform = inverse(triangle->transform);
-                            Vector3 pixel_center_3d = inverse_transform * Vector3{subpixel_x, subpixel_y, 1.0};
+                            Vector3 pixel_center_3d = inverse_transform * Vector3{x_center, y_center, 1.0};
                             Vector2 pixel_center{pixel_center_3d.x, pixel_center_3d.y};
 
                             Vector2 p0 = triangle->p0;
