@@ -1,0 +1,1 @@
+The scene I created is sword.json and referencing sword.ply file. I downloaded the object from https://free3d.com/3d-model/3d-model-zabuza-sword-low-poly-67512.html
