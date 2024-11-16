@@ -1,1 +1,0 @@
-I implemented the camera in question 3 and the animation for question 4 for extra credit
